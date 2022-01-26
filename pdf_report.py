@@ -35,6 +35,11 @@ def line_plot(dict_list, parameter, title, comp_list=['AMBEV S.A.'], save_folder
         plt.axhline(y=22, color='#D22B2B', linestyle='--', linewidth=0.9)
         plt.axhline(y=40, color='#7FFF00', linestyle='--', linewidth=0.9)
 
+    # Margem Líquida - seetings
+    if parameter == 'marg_liq_list':
+        plt.axhline(y=10, color='#D22B2B', linestyle='--', linewidth=0.9)
+        plt.axhline(y=20, color='#7FFF00', linestyle='--', linewidth=0.9)
+
     # Despesas VGA - seetings
     if parameter == 'vga_lucro_brut_list':
         plt.axhline(y=-80, color='#D22B2B', linestyle='--', linewidth=0.9)
@@ -101,7 +106,7 @@ class PDF(FPDF):
 
 
 # Collect data from function worked_info
-company_list = ['AMBEV S.A.']
+company_list = ['OI S.A.']
 return_dict_list = pi.worked_info(companies=company_list)
 
 # Create .pdf object
@@ -127,6 +132,7 @@ line_plot(return_dict_list, 'ped_lucro_brut_list', 'Despesas Pesquisa sobre o Lu
 line_plot(return_dict_list, 'deprec_lucro_brut_list', 'Depreciciação sobre o Lucro Bruto (%)', comp_list=company_list)
 line_plot(return_dict_list, 'juros_lucro_oper_list', 'Juros sobre o Lucro Operacional (%)', comp_list=company_list)
 line_plot(return_dict_list, 'lucro_liq_list', 'Lucro líquido (mil reais)', comp_list=company_list)
+line_plot(return_dict_list, 'lucro_brut_list', 'Lucro Bruto (mil reais)', comp_list=company_list)
 line_plot(return_dict_list, 'lucroporacao_list', 'Lucro por ação (mil reais)', comp_list=company_list)
 line_plot(return_dict_list, 'coef_liquidez_list', 'Coeficiente de Liquidez (Ativo Circulante/Passivo Circulante)', comp_list=company_list)
 line_plot(return_dict_list, 'ativo_circ_list', 'Ativo Circulante (mil reais)', comp_list=company_list)
@@ -158,7 +164,7 @@ pdf.set_font('Courier', 'I', 15)
 pdf.set_x(x=15)
 pdf.cell(100, 10, 'Indicadores de Crescimento', align='L')
 pdf.ln(20)
-growth_list = ['lucro_liq_list.png', 'lucro_acumul_list.png', 'ativo_circ_list.png']
+growth_list = ['lucro_brut_list.png', 'lucro_liq_list.png', 'lucro_acumul_list.png', 'ativo_circ_list.png']
 
 for image in growth_list:
     image_setter(image, fig_folder, pdf)
