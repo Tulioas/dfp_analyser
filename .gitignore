@@ -112,5 +112,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-*.png
 *.csv
