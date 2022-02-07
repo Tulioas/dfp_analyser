@@ -2,7 +2,7 @@
 
 ## Descrição
 
-O presente programa propõe coletar as demonstrações financeiras de empresas listadas na bolsa de valores, trabalhar esses dados e gerar um relatório em formato PDF com informações de interesse. O objetivo do software é analisar a situação financeira de uma empres ao longo dos anos ou comparar um grupo de empresas entre si, orientando-se segundo métricas baseadas nas recomendações do livro "Warren Buffett e a Análise de Balanços".
+O presente programa propõe coletar as demonstrações financeiras de empresas listadas na bolsa de valores, trabalhar esses dados e gerar um relatório em formato PDF com informações de interesse. O objetivo do software é analisar a situação financeira de uma empresa ao longo dos anos ou comparar um grupo de empresas entre si, orientando-se segundo métricas baseadas nas recomendações do livro "Warren Buffett e a Análise de Balanços".
 
 Uma breve exibição da aparência e formatação do documento está disposta a seguir.
 
