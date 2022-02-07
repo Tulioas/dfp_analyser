@@ -2,11 +2,11 @@
 
 ## Descrição
 
-O presente programa propõe coletar as demonstrações financeiras de empresas listadas na bolsa de valores, trabalhar esses dados e gerar um relatório em formato PDF com informações de interesse. O objetivo do software é analisar a situação financeira de uma empresa ao longo dos anos ou comparar um grupo de empresas entre si, orientando-se segundo métricas baseadas nas recomendações do livro "Warren Buffett e a Análise de Balanços".
+O presente programa propõe coletar as demonstrações financeiras anuais de empresas listadas na bolsa de valores, trabalhar esses dados e gerar um relatório em formato PDF com informações de interesse. O objetivo do software é analisar a situação financeira de uma empresa ao longo dos anos ou comparar um grupo de empresas entre si, orientando-se segundo métricas baseadas nas recomendações do livro "Warren Buffett e a Análise de Balanços".
 
 Uma breve exibição da aparência e formatação do documento está disposta a seguir.
 
-![alt text](readme_images/exemplo_descricao.png)
+<img src="readme_images/exemplo_descricao.PNG" align="center">
 
 ## Tópicos para o Usuário
 
@@ -24,15 +24,15 @@ Para executar o programa, o usuário deve certificar-se de baixar as seguintes b
 
 A Comissão de Valores Mobiliários (CVM) disponibiliza nesse [LINK](http://dados.cvm.gov.br/dataset/cia_aberta-doc-dfp) arquivos contendo as demonstrações financeiras de todas as companhias listadas na bolsa de valores para o ano em questão. Portanto, um único download já é suficiente para acessar qualquer dado daquele ano.
 
-![alt text](readme_images/pagina_inicial_cvm.png)
+![alt text](readme_images/pagina_inicial_cvm.PNG)
 
 Dessa forma, para baixar o arquivo compactado (.zip), basta acessar os formulários de demonstrações financeiras no tópico "Dados e recursos" e depois clicar no link indicado na imagem abaixo. O exemplo dados nas imagens faz o processo para o ano 2018, mas o usuários pode baixar demonstrações de 2017 até o presente.
 
-![alt text](readme_images/formulario_dfp.png)
+![alt text](readme_images/formulario_dfp.PNG)
 
 Esses arquivos compactados devem ser salvos, pelo usuário, na pasta "raw_dfp/raw_zip" para que o programa inclua o ano em questão na análise. Por padrão, já estão disponíveis arquivos para os anos de 2017 a 2020.
 
-![alt text](readme_images/raw_zip_folder.png)
+![alt text](readme_images/raw_zip_folder.PNG)
 
 ### Como Inserir Empresas para Análise
 
@@ -40,11 +40,11 @@ O programa suporta a análise de uma ou múltiplas empresas. Obviamente, caso o 
 
 Para indicar as empresas a serem analisadas, basta preencher a variável "company_list" localizada no arquivo "pdf_report.py logo após as funcões iniciais. Os nomes são dados sob o formato de uma lista de strings. Abaixo temos um exemplo em que foram fornecidas as empresas AMBEV e Petrobrás.
 
-![alt text](readme_images/input_mult_comp.png)
+![alt text](readme_images/input_mult_comp.PNG)
 
 ATENÇÂO para o nome das empresas inseridas. Infelizmente, o software é sensível aos caracteres,logo, qualquer caracter alterado acarretará no não reconhecimento da empresa e no preenchimento de todos os gráficos com o valor 0. Recomenda-se checar o nome da companhia no site da CVM ou em uma demonstração financeira lançada. Tomando a AMBEV como exemplo, o nome da companhia pode ser encontrado no topo de qualquer demonstração financeira.
 
-![alt text](readme_images/nome_companhia.png)
+![alt text](readme_images/nome_companhia.PNG)
 
 ### Como Executar o Programa
 
