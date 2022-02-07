@@ -112,7 +112,8 @@ def primary_info(companies, clear_prev_folder=False):
             with ZipFile(f'raw_dfp\\raw_zip\\{file}', 'r') as zip:
                 zip.extractall(path=f'raw_dfp\\{output_folder}')
         else:
-            print("Year DFP folder is already filled. Check the need of extraction")
+            print(f"A pasta \"raw_dfp/{zip_year}\" ja tem arquivos internos. Confira a necessidade de descompactar o .zip.")
+            print('Prosseguindo ...')
 
     # List folders in 'raw_dfp' and remove 'raw_zip'
     raw_folders = os.listdir('raw_dfp')
@@ -188,6 +189,9 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
 
     # Extract primary information
     prim_info = primary_info(companies, clear_prev_folder=False)
+
+    print('-+-' * 20)
+    print('CARREGANDO DATAFFRAME ...')
 
     # Travel throught companies
     for comp_index in range(len(companies)):

@@ -16,7 +16,7 @@ def line_plot(dict_list, parameter, title, comp_list=['AMBEV S.A.'], save_folder
     fig.gca().spines["right"].set_visible(False)
     fig.gca().spines["top"].set_visible(False)
 
-    # Add plots for rach company
+    # Add plots for each company
     for comp_index in range(len(dict_list)):
         color = color_list[comp_index]
         list_year = dict_list[comp_index]['year_columns']
@@ -77,6 +77,16 @@ def image_setter(image, folder_fig, pdf_object):
     pdf_object.image(f'{folder_fig}\\{image}', x=(pdf_w/2 - 180/2), w=180)
     pdf_object.ln(10)
 
+
+# Input companies for analysis
+company_list = ['AMBEV S.A.']
+
+# Collect data from function worked_info
+return_dict_list = pi.worked_info(companies=company_list)
+
+print('-+-' * 20)
+print('CRIANDO IMAGENS ...')
+
 # Create list of years
 year_list = []
 dir_elements = os.listdir('raw_dfp')
@@ -103,11 +113,6 @@ class PDF(FPDF):
 
     def lines(self):
         self.rect(2.5, 2.5, 205.0, 292.0)
-
-
-# Collect data from function worked_info
-company_list = ['OI S.A.']
-return_dict_list = pi.worked_info(companies=company_list)
 
 # Create .pdf object
 pdf = PDF('P', 'mm', 'A4')
@@ -142,6 +147,9 @@ line_plot(return_dict_list, 'roe_list', 'ROE (%)', comp_list=company_list)
 line_plot(return_dict_list, 'roa_list', 'ROA (%)', comp_list=company_list)
 line_plot(return_dict_list, 'lucro_acumul_list', 'Lucro Acumulado (mil reais)', comp_list=company_list)
 line_plot(return_dict_list, 'desp_ativo_fixo_lucro_liq_exerc_list', 'Despesa com Ativos Fixos/Lucro Líquido (%)', comp_list=company_list)
+
+print('-+-' * 20)
+print('CRIANDO PDF ...')
 
 # Rentability indicators
 pdf.set_font('ZapfDingbats', '', 5)
@@ -209,4 +217,4 @@ other_list = ['imobilizado_list.png', 'desp_ativo_fixo_lucro_liq_exerc_list.png'
 for image in other_list:
     image_setter(image, fig_folder, pdf)
 
-pdf.output('tuto1.pdf', 'F')
+pdf.output('DFP Report.pdf', 'F')

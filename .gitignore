@@ -113,3 +113,23 @@ dmypy.json
 # Pyre type checker
 .pyre/
 *.csv
+figures/ativo_circ_list.png
+DFP Report.pdf
+figures/coef_liquidez_list.png
+figures/deprec_lucro_brut_list.png
+figures/desp_ativo_fixo_lucro_liq_exerc_list.png
+figures/imobilizado_list.png
+figures/juros_lucro_oper_list.png
+figures/lucro_acumul_list.png
+figures/lucro_brut_list.png
+figures/lucro_liq_list.png
+figures/lucroporacao_list.png
+figures/marg_brut_list.png
+figures/marg_liq_list.png
+figures/passivo_tot_patrliq_list.png
+figures/ped_lucro_brut_list.png
+figures/roa_list.png
+figures/roe_list.png
+figures/vga_lucro_brut_list.png
+teste.py
+teste2.py
