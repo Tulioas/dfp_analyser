@@ -2,7 +2,7 @@
 
 ## Descrição
 
-O presente programa propõe coletar as demonstrações financeiras anuais de empresas listadas na bolsa de valores, trabalhar esses dados e gerar um relatório em formato PDF com informações de interesse. O objetivo do software é analisar a situação financeira de uma empresa ao longo dos anos ou comparar um grupo de empresas entre si, orientando-se segundo métricas baseadas nas recomendações do livro "Warren Buffett e a Análise de Balanços".
+O presente programa propõe coletar as demonstrações financeiras anuais de empresas listadas na bolsa de valores do Brasil, trabalhar esses dados e gerar um relatório em formato PDF com informações de interesse. O objetivo do software é analisar a situação financeira de uma empresa ao longo dos anos ou comparar um grupo de empresas entre si, orientando-se segundo métricas baseadas nas recomendações do livro "Warren Buffett e a Análise de Balanços".
 
 Uma breve exibição da aparência e formatação do documento está disposta a seguir.
 
@@ -33,6 +33,8 @@ Dessa forma, para baixar o arquivo compactado (.zip), basta acessar os formulár
 Esses arquivos compactados devem ser salvos, pelo usuário, na pasta "raw_dfp/raw_zip" para que o programa inclua o ano em questão na análise. Por padrão, já estão disponíveis arquivos para os anos de 2017 a 2020.
 
 ![alt text](readme_images/raw_zip_folder.PNG)
+
+>ATENÇÃO: o ano de 2016 consegue ser extraído dos arquivos de 2017 a partir das linhas de dados do ano anterior, mesmo não tendo download no site da CVM. Esse processo é feito automaticamente pelo programa caso haja dados de 2017. Assim, não é preciso se preocupar caso esses dados apareçam sem a existencia de um arquivo .zip de 2016. Isso não significará mal funcionamento do programa.
 
 >ATENÇÃO para a data em que é feito o dowload, principalmente entre janeiro e março! As demonstrações anuais normalmente são entregues pelas empresas ao longo de fevereiro do ano seguinte. Dessa forma, o usuário pode baixar um arquivo .zip desatualizado com somente uma parte das empresas, assim como esquecer que os dados daquele arquivo estão desatualizados e usá-lo meses depois.
 
@@ -80,9 +82,9 @@ Os dados de interesse são baseados nas recomendações do livro ["Warren Buffet
  - *Ativo imobilizado (mil reais)*
  - *Despesas com Ativos Fixos sobre o Lucro Líquido (%)*
 
->Observação 1: algumas variáveis como, por exemplo, as despesas, são reportadas como valores negativos. A interpretação do sinal dos valores e seu significado depende do conhecimento do leitor sobre como essas variáveis são reportadas nas DFPs e, portanto, são responsabilidade do usuário. Vale o alerta acerca de eventos inesperados como lucros negativos, que podem fazer, por exemplo, gráficos de despesas com juros ficarem positivos (o que indicaria lucro no resultado financeiro). Para evitar esse tipo de confusão, basta cruzar as informações entre gráficos ou até mesmo conferir no demonstrativo do ano correspondente para descobrir eventuais armadilhas com os sinais dos números.
+>ATENÇÃO: algumas variáveis como, por exemplo, as despesas, são reportadas como valores negativos. A interpretação do sinal dos valores e seu significado depende do conhecimento do leitor sobre como essas variáveis são reportadas nas DFPs e, portanto, são responsabilidade do usuário. Vale o alerta acerca de eventos inesperados como lucros negativos, que podem fazer, por exemplo, gráficos de despesas com juros ficarem positivos (o que indicaria lucro no resultado financeiro). Para evitar esse tipo de confusão, basta cruzar as informações entre gráficos ou até mesmo conferir no demonstrativo do ano correspondente para descobrir eventuais armadilhas com os sinais dos números.
 
->Observação 2: alguns gráficos tem linhas horizontais que, segundo o livro de referência, podem indicar uma vantagem competitiva da companhia, uma empresa num ramo muito competitivo ou uma empresa com problemas internos. Linhas verdes indicam possíveis vantagens competitivas (como uma margem bruta acima de 40%) e linhas vermelhas indicam pontos problemáticos. Vale lembrar que essas indicações não são determinantes para a análise de uma empresa, mas podem ajudar a encontrar bons negócios.
+>ATENÇÃO: alguns gráficos tem linhas horizontais que, segundo o livro de referência, podem indicar uma vantagem competitiva da companhia, uma empresa num ramo muito competitivo ou uma empresa com problemas internos. Linhas verdes indicam possíveis vantagens competitivas (como uma margem bruta acima de 40%) e linhas vermelhas indicam pontos problemáticos. Vale lembrar que essas indicações não são determinantes para a análise de uma empresa, mas podem ajudar a encontrar bons negócios.
 
 ### Tempo de Execução
 
