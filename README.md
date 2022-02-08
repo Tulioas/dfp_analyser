@@ -6,7 +6,7 @@ O presente programa propõe coletar as demonstrações financeiras anuais de emp
 
 Uma breve exibição da aparência e formatação do documento está disposta a seguir.
 
-<img src="readme_images/exemplo_descricao.PNG" align="center">
+<img src="readme_images/exemplo_descricao.PNG" align="center" height="1000">
 
 ## Tópicos para o Usuário
 
@@ -22,11 +22,11 @@ Para executar o programa, o usuário deve certificar-se de baixar as seguintes b
 
 ### Como Alimentar o Programa com as Demonstrações
 
-A Comissão de Valores Mobiliários (CVM) disponibiliza nesse [LINK](http://dados.cvm.gov.br/dataset/cia_aberta-doc-dfp) arquivos contendo as demonstrações financeiras de todas as companhias listadas na bolsa de valores para o ano em questão. Portanto, um único download já é suficiente para acessar qualquer dado daquele ano.
+A Comissão de Valores Mobiliários (CVM) disponibiliza, nesse [LINK](http://dados.cvm.gov.br/dataset/cia_aberta-doc-dfp), arquivos contendo as demonstrações financeiras de todas as companhias listadas na bolsa de valores para o ano em questão. Portanto, um único download já é suficiente para acessar qualquer dado daquele ano.
 
 ![alt text](readme_images/pagina_inicial_cvm.PNG)
 
-Dessa forma, para baixar o arquivo compactado (.zip), basta acessar os formulários de demonstrações financeiras no tópico "Dados e recursos" e depois clicar no link indicado na imagem abaixo. O exemplo dados nas imagens faz o processo para o ano 2018, mas o usuários pode baixar demonstrações de 2017 até o presente.
+Dessa forma, para baixar o arquivo compactado (.zip), basta acessar os formulários de demonstrações financeiras no tópico "Dados e recursos" e depois clicar no link indicado na imagem abaixo. O exemplo dado nas imagens faz o processo para o ano 2018, mas o usuários pode baixar demonstrações de 2017 até o presente.
 
 ![alt text](readme_images/formulario_dfp.PNG)
 
@@ -34,15 +34,17 @@ Esses arquivos compactados devem ser salvos, pelo usuário, na pasta "raw_dfp/ra
 
 ![alt text](readme_images/raw_zip_folder.PNG)
 
+>ATENÇÃO para a data em que é feito o dowload, principalmente entre janeiro e março! As demonstrações anuais normalmente são entregues pelas empresas ao longo de fevereiro do ano seguinte. Dessa forma, o usuário pode baixar um arquivo .zip desatualizado com somente uma parte das empresas, assim como esquecer que os dados daquele arquivo estão desatualizados e usá-lo meses depois.
+
 ### Como Inserir Empresas para Análise
 
 O programa suporta a análise de uma ou múltiplas empresas. Obviamente, caso o usuário insira muitas empresas os gráficos ficarão com a visualização prejudicada.
 
-Para indicar as empresas a serem analisadas, basta preencher a variável "company_list" localizada no arquivo "pdf_report.py logo após as funcões iniciais. Os nomes são dados sob o formato de uma lista de strings. Abaixo temos um exemplo em que foram fornecidas as empresas AMBEV e Petrobrás.
+Para indicar as empresas a serem analisadas, basta preencher a variável "company_list" localizada no arquivo "pdf_report.py" logo após as funcões iniciais. Portanto, recomenda-se minimizar as funções iniciais como no exemplo abaixo para acessar mais facilmente a variável. Os nomes são dados sob o formato de uma lista de strings. Abaixo temos um exemplo em que foram fornecidas as empresas AMBEV e Petrobrás.
 
 ![alt text](readme_images/input_mult_comp.PNG)
 
-ATENÇÂO para o nome das empresas inseridas. Infelizmente, o software é sensível aos caracteres,logo, qualquer caracter alterado acarretará no não reconhecimento da empresa e no preenchimento de todos os gráficos com o valor 0. Recomenda-se checar o nome da companhia no site da CVM ou em uma demonstração financeira lançada. Tomando a AMBEV como exemplo, o nome da companhia pode ser encontrado no topo de qualquer demonstração financeira.
+>ATENÇÂO para o nome das empresas inseridas. Infelizmente, o software é sensível aos caracteres, logo, qualquer caracter alterado acarretará no não reconhecimento da empresa e no preenchimento de todos os gráficos com o valor 0. Recomenda-se checar o nome da companhia no site da CVM ou em uma demonstração financeira lançada. Tomando a AMBEV como exemplo, o nome da companhia pode ser encontrado no topo de qualquer demonstração financeira.
 
 ![alt text](readme_images/nome_companhia.PNG)
 
@@ -78,9 +80,9 @@ Os dados de interesse são baseados nas recomendações do livro ["Warren Buffet
  - *Ativo imobilizado (mil reais)*
  - *Despesas com Ativos Fixos sobre o Lucro Líquido (%)*
 
-Observação 1: algumas variáveis como, por exemplo, as despesas, são reportadas como valores negativos. A interpretação do sinal dos valores e seu significado depende do conhecimento do leitor sobre como essas variáveis são reportadas nas DFPs e, portanto, são responsabilidade do usuário. Vale o alerta acerca de eventos inesperados como lucros negativos, que podem fazer, por exemplo, gráficos de despesas com juros ficarem positivos (o que indicaria lucro no resultado financeiro). Para evitar esse tipo de confusão, basta cruzar as informações entre gráficos ou até mesmo conferir no demonstrativo do ano correspondente para descobrir eventuais armadilhas com os sinais dos números.
+>Observação 1: algumas variáveis como, por exemplo, as despesas, são reportadas como valores negativos. A interpretação do sinal dos valores e seu significado depende do conhecimento do leitor sobre como essas variáveis são reportadas nas DFPs e, portanto, são responsabilidade do usuário. Vale o alerta acerca de eventos inesperados como lucros negativos, que podem fazer, por exemplo, gráficos de despesas com juros ficarem positivos (o que indicaria lucro no resultado financeiro). Para evitar esse tipo de confusão, basta cruzar as informações entre gráficos ou até mesmo conferir no demonstrativo do ano correspondente para descobrir eventuais armadilhas com os sinais dos números.
 
-Observação 2: alguns gráficos tem linhas horizontais que, segundo o livro de referência, podem indicar uma vantagem competitiva da companhia, uma empresa num ramo muito competitivo ou uma empresa com problemas internos. Linhas verdes indicam possíveis vantagens competitivas (como uma margem bruta acima de 40%) e linhas vermelhas indicam pontos problemáticos. Vale lembrar que essas indicações não são determinantes para a análise de uma empresa, mas podem ajudar a encontrar bons negócios.
+>Observação 2: alguns gráficos tem linhas horizontais que, segundo o livro de referência, podem indicar uma vantagem competitiva da companhia, uma empresa num ramo muito competitivo ou uma empresa com problemas internos. Linhas verdes indicam possíveis vantagens competitivas (como uma margem bruta acima de 40%) e linhas vermelhas indicam pontos problemáticos. Vale lembrar que essas indicações não são determinantes para a análise de uma empresa, mas podem ajudar a encontrar bons negócios.
 
 ### Tempo de Execução
 
