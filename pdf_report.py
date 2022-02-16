@@ -57,6 +57,9 @@ def line_plot(dict_list, parameter, title, comp_list=['AMBEV S.A.'], save_folder
         plt.axhline(y=-50, color='#7FFF00', linestyle='--', linewidth=0.9)
         plt.axhline(y=-25, color='#7FFF00', linestyle='--', linewidth=0.9)
 
+    if parameter == 'divida_tot_lucro_oper_list':
+        plt.axhline(y=4, color='#D22B2B', linestyle='--', linewidth=0.9)
+
     # Save the figure in "figures" folder
     plt.savefig(f'{save_folder}\\{parameter}.png', bbox_inches='tight', transparent=True)
 
@@ -140,13 +143,14 @@ line_plot(return_dict_list, 'lucro_liq_list', 'Lucro líquido (mil reais)', comp
 line_plot(return_dict_list, 'lucro_brut_list', 'Lucro Bruto (mil reais)', comp_list=company_list)
 line_plot(return_dict_list, 'lucroporacao_list', 'Lucro por ação (mil reais)', comp_list=company_list)
 line_plot(return_dict_list, 'coef_liquidez_list', 'Coeficiente de Liquidez (Ativo Circulante/Passivo Circulante)', comp_list=company_list)
-line_plot(return_dict_list, 'ativo_circ_list', 'Ativo Circulante (mil reais)', comp_list=company_list)
 line_plot(return_dict_list, 'imobilizado_list', 'Ativo Imobilizado (mil reais)', comp_list=company_list)
 line_plot(return_dict_list, 'passivo_tot_patrliq_list', 'Passivo Total/Patrimônio Líquido', comp_list=company_list)
 line_plot(return_dict_list, 'roe_list', 'ROE (%)', comp_list=company_list)
 line_plot(return_dict_list, 'roa_list', 'ROA (%)', comp_list=company_list)
 line_plot(return_dict_list, 'lucro_acumul_list', 'Lucro Acumulado (mil reais)', comp_list=company_list)
 line_plot(return_dict_list, 'desp_ativo_fixo_lucro_liq_exerc_list', 'Despesa com Ativos Fixos/Lucro Líquido (%)', comp_list=company_list)
+line_plot(return_dict_list, 'divida_curto_tot_list', 'Dívida de Curto Prazo / Dívida Total (%)', comp_list=company_list)
+line_plot(return_dict_list, 'divida_tot_lucro_oper_list', 'Divida Total / Lucro Operacional', comp_list=company_list)
 
 print('-+-' * 20)
 print('CRIANDO PDF ...')
@@ -172,7 +176,7 @@ pdf.set_font('Courier', 'I', 15)
 pdf.set_x(x=15)
 pdf.cell(100, 10, 'Indicadores de Crescimento', align='L')
 pdf.ln(20)
-growth_list = ['lucro_brut_list.png', 'lucro_liq_list.png', 'lucro_acumul_list.png', 'ativo_circ_list.png']
+growth_list = ['lucro_brut_list.png', 'lucro_liq_list.png', 'lucro_acumul_list.png']
 
 for image in growth_list:
     image_setter(image, fig_folder, pdf)
@@ -199,7 +203,7 @@ pdf.set_font('Courier', 'I', 15)
 pdf.set_x(x=15)
 pdf.cell(100, 10, 'Indicadores de Endividamento', align='L')
 pdf.ln(20)
-debt_list = ['coef_liquidez_list.png', 'passivo_tot_patrliq_list.png']
+debt_list = ['coef_liquidez_list.png', 'passivo_tot_patrliq_list.png', 'divida_curto_tot_list.png', 'divida_tot_lucro_oper_list.png']
 
 for image in debt_list:
     image_setter(image, fig_folder, pdf)

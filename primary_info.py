@@ -64,11 +64,11 @@ def dataframe_filtering(folder, file_name_list, company_list, prev=False):
                 interest_data = ['Ativo Total', 'Ativo Circulante', 'Imobilizado']
 
             elif file.find('BPP') != -1:
-                interest_data = ['Passivo Circulante', 'Passivo Não Circulante', 'Patrimônio Líquido Consolidado',
+                interest_data = ['Passivo Circulante', 'Empréstimos e Financiamentos', 'Passivo Não Circulante', 'Patrimônio Líquido Consolidado',
                                     'Reservas de Lucros', 'Lucros/Prejuízos Acumulados']
 
             elif file.find('DFC_MI') != -1:
-                interest_data = ['Lucro Líquido do exercício', 'Depreciação, Amortização e Impairment', 'Aquisição de Imobilizado e Intangíveis',
+                interest_data = ['Lucro Líquido do exercício', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento', 'Depreciação e Amortização', 'Depreciações e Amortizações', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização', 'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado', 'Aquisição de Imobilizado e Intangíveis',
                                 'Adições de imobilizado', 'Compras de ativo imobilizado', 'Aquisições de imobilizado', 'Aquisições de Imobilizado',
                                 'Aquisições de Imobilizado e Intangível', 'Aquisições de imobilizado e intangível', 'Aquisições de Imobilizados e Intangíveis (Exceto pelo Excedente de Cessão Onerosa)',
                                 'Aquisições de imobilizados e intangíveis', 'Aquisições de imobilizado veículos frota', 'Aquisições de imobilizado de uso', 'Aquisições de Imobilizado de Uso']
@@ -206,6 +206,7 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
         primary_frame = prim_info[comp_index]
         #pd.set_option('display.expand_frame_repr', False)
         #print(primary_frame)
+        #primary_frame.to_csv('primary_csv.csv',sep=' ')
 
         # Duplicate checker
         imobilizado_duplicate = 0
@@ -214,6 +215,8 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
         dai_duplicate = 0
         ped_duplicate = 0
         vendas_duplicate = 0
+        divida_curto_duplicate = 0
+        divida_longo_duplicate = 0
 
         # Initialize primary variables lists
         receita_list = []
@@ -232,6 +235,8 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
         ativo_circ_list = []
         imobilizado_list = []
         passivo_circ_list = []
+        divida_curto_list = []
+        divida_longo_list = []
         passivo_ncirc_list = []
         patr_liq_list = []
         lucro_acumul_list = []
@@ -273,7 +278,7 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
                 else:
                     pass
 
-            elif primary_frame.iloc[row][col] == 'Despesas de Depreciação':
+            elif primary_frame.iloc[row][col] in ['Despesas de Depreciação', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento', 'Depreciação e Amortização', 'Depreciações e Amortizações', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização', 'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado']:
                 if dai_duplicate == 0:
                     dai_duplicate += 1
                     for year in year_columns:
@@ -336,6 +341,15 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
                 for year in year_columns:
                     passivo_circ_list.append(primary_frame.iloc[row][year])
 
+            elif primary_frame.iloc[row][col] == 'Empréstimos e Financiamentos':
+                if divida_curto_duplicate == 0:
+                    divida_curto_duplicate += 1
+                    for year in year_columns:
+                        divida_curto_list.append(primary_frame.iloc[row][year])
+                        divida_longo_list.append(primary_frame.iloc[row+2][year])
+                else:
+                    pass
+
             elif primary_frame.iloc[row][col] == 'Passivo Não Circulante':
                 for year in year_columns:
                     passivo_ncirc_list.append(primary_frame.iloc[row][year])
@@ -366,6 +380,7 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
 
         # Build intermediate Variables
         desp_vga_list = np.array(desp_vendas_list) + np.array(desp_ga_list)
+        divida_tot_list = np.array(divida_curto_list) + np.array(divida_longo_list)
 
         if lucro_brut_list == []:
             lucro_brut_list = np.zeros(len(year_columns))
@@ -390,6 +405,8 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
         roe_list = 100 * np.divide(np.array(lucro_liq_list), np.array(patr_liq_list))
         roa_list = 100 * np.divide(np.array(lucro_liq_list), np.array(ativo_total_list))
         desp_ativo_fixo_lucro_liq_exerc_list = 100 * np.divide(np.array(desp_ativo_fixo_list), np.array(lucro_liq_exerc_list))
+        divida_curto_tot_list = 100 * np.divide(np.array(divida_curto_list), np.array(divida_tot_list))
+        divida_tot_lucro_oper_list = np.divide(np.array(divida_tot_list), np.array(lucro_oper_list))
 
         company_dict = {
         'year_columns': year_columns,
@@ -403,15 +420,17 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
         'lucro_liq_list': lucro_liq_list,
         'lucroporacao_list':lucroporacao_list,
         'coef_liquidez_list': coef_liquidez_list,
-        'ativo_circ_list': ativo_circ_list,
         'imobilizado_list': imobilizado_list,
         'passivo_tot_patrliq_list': passivo_tot_patrliq_list,
         'roe_list': roe_list,
         'roa_list': roa_list,
         'lucro_acumul_list': lucro_acumul_list,
-        'desp_ativo_fixo_lucro_liq_exerc_list': desp_ativo_fixo_lucro_liq_exerc_list
+        'desp_ativo_fixo_lucro_liq_exerc_list': desp_ativo_fixo_lucro_liq_exerc_list,
+        'divida_curto_tot_list': divida_curto_tot_list,
+        'divida_tot_lucro_oper_list': divida_tot_lucro_oper_list
         }
 
         return_dict_list.append(company_dict)
 
     return return_dict_list
+
