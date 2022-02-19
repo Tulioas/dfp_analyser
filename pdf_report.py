@@ -82,7 +82,7 @@ def image_setter(image, folder_fig, pdf_object):
 
 
 # Input companies for analysis
-company_list = ['AMBEV S.A.']
+company_list = ['TRANSMISSORA ALIANÇA DE ENERGIA ELÉTRICA S.A.']
 
 # Collect data from function worked_info
 return_dict_list = pi.worked_info(companies=company_list)
@@ -150,7 +150,7 @@ line_plot(return_dict_list, 'roa_list', 'ROA (%)', comp_list=company_list)
 line_plot(return_dict_list, 'lucro_acumul_list', 'Lucro Acumulado (mil reais)', comp_list=company_list)
 line_plot(return_dict_list, 'desp_ativo_fixo_lucro_liq_exerc_list', 'Despesa com Ativos Fixos/Lucro Líquido (%)', comp_list=company_list)
 line_plot(return_dict_list, 'divida_curto_tot_list', 'Dívida de Curto Prazo / Dívida Total (%)', comp_list=company_list)
-line_plot(return_dict_list, 'divida_tot_lucro_oper_list', 'Divida Total / Lucro Operacional', comp_list=company_list)
+line_plot(return_dict_list, 'divida_tot_lucro_oper_list', 'Divida Bruta / Lucro Operacional', comp_list=company_list)
 
 print('-+-' * 20)
 print('CRIANDO PDF ...')

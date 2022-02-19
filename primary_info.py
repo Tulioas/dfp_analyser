@@ -68,10 +68,10 @@ def dataframe_filtering(folder, file_name_list, company_list, prev=False):
                                     'Reservas de Lucros', 'Lucros/Prejuízos Acumulados']
 
             elif file.find('DFC_MI') != -1:
-                interest_data = ['Lucro Líquido do exercício', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento', 'Depreciação e Amortização', 'Depreciações e Amortizações', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização', 'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado', 'Aquisição de Imobilizado e Intangíveis',
-                                'Adições de imobilizado', 'Compras de ativo imobilizado', 'Aquisições de imobilizado', 'Aquisições de Imobilizado',
+                interest_data = ['Lucro Líquido do exercício', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento', 'Depreciação e Amortização', 'Depreciações e Amortizações', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização', 'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado', 'Depreciação, exaustão e amortização', 'Depreciação, Amortização e Exaustão',
+                                'Aquisição de Imobilizado e Intangíveis', 'Adições de imobilizado', 'Compras de ativo imobilizado', 'Aquisições de imobilizado', 'Aquisições de Imobilizado',
                                 'Aquisições de Imobilizado e Intangível', 'Aquisições de imobilizado e intangível', 'Aquisições de Imobilizados e Intangíveis (Exceto pelo Excedente de Cessão Onerosa)',
-                                'Aquisições de imobilizados e intangíveis', 'Aquisições de imobilizado veículos frota', 'Aquisições de imobilizado de uso', 'Aquisições de Imobilizado de Uso']
+                                'Aquisições de imobilizados e intangíveis', 'Aquisições de imobilizado veículos frota', 'Aquisições de imobilizado de uso', 'Aquisições de Imobilizado de Uso', 'Aquisição de ativos imobilizados, intangível e propriedade para investimento']
 
             file_4 = file_3[file_3['DS_CONTA'].isin(interest_data)]
 
@@ -217,6 +217,7 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
         vendas_duplicate = 0
         divida_curto_duplicate = 0
         divida_longo_duplicate = 0
+        receita_duplicate = 0
 
         # Initialize primary variables lists
         receita_list = []
@@ -255,8 +256,12 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
                 
             # Fill primary variable lists (DRE)
             if primary_frame.iloc[row][col] == 'Receita de Venda de Bens e/ou Serviços':
-                for year in year_columns:
-                    receita_list.append(primary_frame.iloc[row][year])
+                if receita_duplicate == 0:
+                    receita_duplicate += 1
+                    for year in year_columns:
+                        receita_list.append(primary_frame.iloc[row][year])
+                else:
+                    pass
 
             elif primary_frame.iloc[row][col] == 'Resultado Bruto':
                 for year in year_columns:
@@ -278,7 +283,10 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
                 else:
                     pass
 
-            elif primary_frame.iloc[row][col] in ['Despesas de Depreciação', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento', 'Depreciação e Amortização', 'Depreciações e Amortizações', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização', 'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado']:
+            elif primary_frame.iloc[row][col] in ['Despesas de Depreciação', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento',
+                                                    'Depreciação e Amortização', 'Depreciações e Amortizações', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização',
+                                                    'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado', 'Depreciação, exaustão e amortização',
+                                                    'Depreciação, Amortização e Exaustão']:
                 if dai_duplicate == 0:
                     dai_duplicate += 1
                     for year in year_columns:
@@ -374,7 +382,8 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
             elif primary_frame.iloc[row][col] in ['Aquisição de Imobilizado e Intangíveis',
                                 'Adições de imobilizado', 'Compras de ativo imobilizado', 'Aquisições de imobilizado', 'Aquisições de Imobilizado',
                                 'Aquisições de Imobilizado e Intangível', 'Aquisições de imobilizado e intangível', 'Aquisições de Imobilizados e Intangíveis (Exceto pelo Excedente de Cessão Onerosa)',
-                                'Aquisições de imobilizados e intangíveis', 'Aquisições de imobilizado veículos frota', 'Aquisições de imobilizado de uso', 'Aquisições de Imobilizado de Uso']:
+                                'Aquisições de imobilizados e intangíveis', 'Aquisições de imobilizado veículos frota', 'Aquisições de imobilizado de uso', 'Aquisições de Imobilizado de Uso',
+                                'Aquisição de ativos imobilizados, intangível e propriedade para investimento']:
                 for year in year_columns:
                     desp_ativo_fixo_list.append(primary_frame.iloc[row][year])
 
