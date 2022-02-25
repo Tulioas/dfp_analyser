@@ -89,10 +89,10 @@ def dataframe_filtering(folder, file_name_list, company_list, prev=False):
                                     'Reservas de Lucros', 'Lucros/Prejuízos Acumulados']
 
             elif file.find('DFC_MI') != -1:
-                interest_data = ['Lucro Líquido do exercício', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento', 'Depreciação e Amortização', 'Depreciações e Amortizações', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização', 'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado', 'Depreciação, exaustão e amortização', 'Depreciação, Amortização e Exaustão', 'Depreciação, Exaustão e Amortização',
+                interest_data = ['Lucro Líquido do exercício', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento', 'Depreciação e Amortização', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização', 'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado', 'Depreciação, exaustão e amortização', 'Depreciação, Amortização e Exaustão', 'Depreciação, Exaustão e Amortização',
                                 'Aquisição de Imobilizado e Intangíveis', 'Adições de imobilizado', 'Compras de ativo imobilizado', 'Aquisições de imobilizado', 'Aquisições de Imobilizado',
                                 'Aquisições de Imobilizado e Intangível', 'Aquisições de imobilizado e intangível', 'Aquisições de Imobilizados e Intangíveis (Exceto pelo Excedente de Cessão Onerosa)',
-                                'Aquisições de imobilizados e intangíveis', 'Aquisições de imobilizado veículos frota', 'Aquisições de imobilizado de uso', 'Aquisições de Imobilizado de Uso', 'Aquisição de ativos imobilizados, intangível e propriedade para investimento']
+                                'Aquisições de imobilizados e intangíveis', 'Aquisições de imobilizado veículos frota', 'Aquisições de imobilizado de uso', 'Aquisições de Imobilizado de Uso', 'Aquisição de ativos imobilizados, intangível e propriedade para investimento', 'Aquisição de imobilizado e intangível']
 
             file_4 = file_3[file_3['DS_CONTA'].isin(interest_data)]
 
@@ -310,7 +310,7 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
                     pass
 
             elif primary_frame.iloc[row][col] in ['Despesas de Depreciação', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento',
-                                                    'Depreciação e Amortização', 'Depreciações e Amortizações', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização',
+                                                    'Depreciação e Amortização', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização',
                                                     'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado', 'Depreciação, exaustão e amortização',
                                                     'Depreciação, Amortização e Exaustão', 'Depreciação, Exaustão e Amortização']:
                 if dai_duplicate == 0:
@@ -416,7 +416,7 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
                                 'Adições de imobilizado', 'Compras de ativo imobilizado', 'Aquisições de imobilizado', 'Aquisições de Imobilizado',
                                 'Aquisições de Imobilizado e Intangível', 'Aquisições de imobilizado e intangível', 'Aquisições de Imobilizados e Intangíveis (Exceto pelo Excedente de Cessão Onerosa)',
                                 'Aquisições de imobilizados e intangíveis', 'Aquisições de imobilizado veículos frota', 'Aquisições de imobilizado de uso', 'Aquisições de Imobilizado de Uso',
-                                'Aquisição de ativos imobilizados, intangível e propriedade para investimento']:
+                                'Aquisição de ativos imobilizados, intangível e propriedade para investimento', 'Aquisição de imobilizado e intangível']:
                 for year in year_columns:
                     desp_ativo_fixo_list.append(primary_frame.iloc[row][year])
 
