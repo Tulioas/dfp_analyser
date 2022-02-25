@@ -17,6 +17,27 @@ def year_identifier(file_name):
     return year
 
 
+def debt_correction(dataframe):
+
+    debt_ident_list = ['Empréstimos e Financiamentos']
+    lpa_ident_list = ['ON']
+    count_debt = 1
+    count_lpa = 1
+
+    for row in range(len(dataframe)):
+        for col in range(len(dataframe.columns)):
+            if dataframe.iloc[row,col] in debt_ident_list:
+                prev_name = dataframe.iloc[row,col]
+                dataframe.iat[row, col] = f'{prev_name} {count_debt}'
+                count_debt += 1
+            if dataframe.iloc[row,col] in lpa_ident_list:
+                prev_name = dataframe.iloc[row,col]
+                dataframe.iat[row, col] = f'{prev_name} {count_lpa}'
+                count_lpa += 1 
+
+    return dataframe
+
+
 def dataframe_filtering(folder, file_name_list, company_list, prev=False):
 
     '''
@@ -45,7 +66,7 @@ def dataframe_filtering(folder, file_name_list, company_list, prev=False):
                 folder_year = int(year_identifier(file_name_list)) - 1
 
             # Filter the right columns
-            file_2 = file_1[['DENOM_CIA', 'DS_CONTA', 'VL_CONTA']]
+            file_2 = file_1[['DENOM_CIA', 'CD_CONTA','DS_CONTA', 'VL_CONTA']]
 
             # Filter the right companies
             file_3 = file_2[file_2['DENOM_CIA'].isin([company])]
@@ -58,7 +79,7 @@ def dataframe_filtering(folder, file_name_list, company_list, prev=False):
             'Custo com Pesquisa e Desenvolvimento Tecnológico', 'Despesas com gastos com desenvolvimento', 'Despesas com desenvolvimento de tecnologia e produtos', 'Com estudos em desenvolvimento',
             'Despesas Gerais e Administrativas', 'Despesas de Depreciação', 'Despesas/Receitas Operacionais',
             'Resultado Antes do Resultado Financeiro e dos Tributos', 'Resultado Financeiro', 'Resultado Antes dos Tributos sobre o Lucro',
-            'Resultado Líquido das Operações Continuadas', 'Lucro Básico por Ação', 'ON', 'Lucro Diluído por Ação']
+            'Resultado Líquido das Operações Continuadas', 'Lucro Básico por Ação', 'ON']
 
             elif file.find('BPA') != -1:
                 interest_data = ['Ativo Total', 'Ativo Circulante', 'Imobilizado']
@@ -68,7 +89,7 @@ def dataframe_filtering(folder, file_name_list, company_list, prev=False):
                                     'Reservas de Lucros', 'Lucros/Prejuízos Acumulados']
 
             elif file.find('DFC_MI') != -1:
-                interest_data = ['Lucro Líquido do exercício', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento', 'Depreciação e Amortização', 'Depreciações e Amortizações', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização', 'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado', 'Depreciação, exaustão e amortização', 'Depreciação, Amortização e Exaustão',
+                interest_data = ['Lucro Líquido do exercício', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento', 'Depreciação e Amortização', 'Depreciações e Amortizações', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização', 'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado', 'Depreciação, exaustão e amortização', 'Depreciação, Amortização e Exaustão', 'Depreciação, Exaustão e Amortização',
                                 'Aquisição de Imobilizado e Intangíveis', 'Adições de imobilizado', 'Compras de ativo imobilizado', 'Aquisições de imobilizado', 'Aquisições de Imobilizado',
                                 'Aquisições de Imobilizado e Intangível', 'Aquisições de imobilizado e intangível', 'Aquisições de Imobilizados e Intangíveis (Exceto pelo Excedente de Cessão Onerosa)',
                                 'Aquisições de imobilizados e intangíveis', 'Aquisições de imobilizado veículos frota', 'Aquisições de imobilizado de uso', 'Aquisições de Imobilizado de Uso', 'Aquisição de ativos imobilizados, intangível e propriedade para investimento']
@@ -167,17 +188,22 @@ def primary_info(companies, clear_prev_folder=False):
                 if len(folder_list_2[company_index]) == 0: # Do not add empty dataframe
                     pass
                 else:
-                    company_frames[company_index] = folder_list_2[company_index]
+                    company_frames[company_index] = debt_correction(folder_list_2[company_index])
         
         # Construct and append a final dataframe for each company with all years information
         for company_index in range(len(companies)):
             if len(folder_list[company_index]) == 0:
                 pass
             elif len(company_frames[company_index]) == 0:
-                company_frames[company_index] = folder_list[company_index]
+                company_frames[company_index] = debt_correction(folder_list[company_index])
+
             else:
-                serie = folder_list[company_index][['DS_CONTA', str(folder)]]
-                company_frames[company_index] = company_frames[company_index].join(serie.set_index('DS_CONTA'), on='DS_CONTA')
+                main = company_frames[company_index]
+                serie_corrected = debt_correction(folder_list[company_index][['DS_CONTA', str(folder)]])
+                serie = serie_corrected.set_index('DS_CONTA')
+
+                #serie_no_dups = serie
+                company_frames[company_index] = pd.merge(main, serie, on=['DS_CONTA'])
 
     return company_frames
 
@@ -286,7 +312,7 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
             elif primary_frame.iloc[row][col] in ['Despesas de Depreciação', 'Depreciação, Amortização e Impairment', 'Depreciação e amortização', 'Depreciação de arrendamento',
                                                     'Depreciação e Amortização', 'Depreciações e Amortizações', 'Depreciações e Amortizações', 'Amortização e Depreciação', 'Depreciação/amortização',
                                                     'Depreciações', 'Depreciação e Amortizações', 'Depreciação do imobilizado', 'Depreciação e depleção do imobilizado', 'Depreciação, exaustão e amortização',
-                                                    'Depreciação, Amortização e Exaustão']:
+                                                    'Depreciação, Amortização e Exaustão', 'Depreciação, Exaustão e Amortização']:
                 if dai_duplicate == 0:
                     dai_duplicate += 1
                     for year in year_columns:
@@ -324,9 +350,9 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
                 for year in year_columns:
                     lucro_liq_list.append(primary_frame.iloc[row][year])
 
-            elif primary_frame.iloc[row][col] == 'Lucro Básico por Ação':
+            elif primary_frame.iloc[row][col] == 'ON 1':
                 for year in year_columns:
-                    lucroporacao_list.append(primary_frame.iloc[row+2][year])
+                    lucroporacao_list.append(primary_frame.iloc[row][year])
 
             # Fill primary variable lists (BPA and BPP)
             if primary_frame.iloc[row][col] == 'Ativo Total':
@@ -349,12 +375,19 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
                 for year in year_columns:
                     passivo_circ_list.append(primary_frame.iloc[row][year])
 
-            elif primary_frame.iloc[row][col] == 'Empréstimos e Financiamentos':
+            elif primary_frame.iloc[row][col] == 'Empréstimos e Financiamentos 1':
                 if divida_curto_duplicate == 0:
                     divida_curto_duplicate += 1
                     for year in year_columns:
                         divida_curto_list.append(primary_frame.iloc[row][year])
-                        divida_longo_list.append(primary_frame.iloc[row+2][year])
+                else:
+                    pass
+
+            elif primary_frame.iloc[row][col] == 'Empréstimos e Financiamentos 3':
+                if divida_longo_duplicate == 0:
+                    divida_longo_duplicate += 1
+                    for year in year_columns:
+                        divida_longo_list.append(primary_frame.iloc[row][year])
                 else:
                     pass
 
@@ -442,4 +475,3 @@ def worked_info(companies=['AMBEV S.A.'], clear_prev_folder=False):
         return_dict_list.append(company_dict)
 
     return return_dict_list
-

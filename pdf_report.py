@@ -5,7 +5,7 @@ import primary_info as pi
 from PIL import Image
 
 
-def line_plot(dict_list, parameter, title, comp_list=['AMBEV S.A.'], save_folder='figures'):
+def line_plot(dict_list, parameter, title, comp_list=['AMBEV S.A.'], save_folder='figures', show_perc=False):
 
     # Color list
     color_list = ['#45B8AC', '#5B5EA6', '#E15D44', '#B565A7', '#EFC050', '#88B04B', '#6B5B95', '#363945', '#E0B589'
@@ -39,6 +39,41 @@ def line_plot(dict_list, parameter, title, comp_list=['AMBEV S.A.'], save_folder
     if parameter == 'marg_liq_list':
         plt.axhline(y=10, color='#D22B2B', linestyle='--', linewidth=0.9)
         plt.axhline(y=20, color='#7FFF00', linestyle='--', linewidth=0.9)
+
+    # Lucro Bruto, líquido e acumulado
+    if parameter in ['lucro_brut_list', 'lucro_liq_list', 'lucro_acumul_list'] and len(comp_list) <= 1 and show_perc==True:
+
+        parameter_list = dict_list[0][parameter]
+        offset_positive = (max(parameter_list) - min(parameter_list)) / 17
+
+        for i in range(len(dict_list[0][parameter])):
+
+            if i == 0:
+                pass
+            else:
+
+                growth = 100 * (parameter_list[i] - parameter_list[i-1]) / abs(parameter_list[i-1])
+
+                if i < len(dict_list[0][parameter]) - 1:
+                    h_align = 'center'
+                    next_growth = 100 * (parameter_list[i+1] - parameter_list[i]) / parameter_list[i]
+                else:
+                    h_align = 'left'
+                    next_growth = 0
+
+                if growth < 0 and next_growth > 0 or growth > 0 and next_growth >= growth or next_growth == 0:
+                    offset = - offset_positive
+                else:
+                    offset = + offset_positive
+
+                if growth >= 0:
+                    color = 'green'
+                    signal = '+'
+                else:
+                    color = 'red'
+                    signal = ''
+
+                plt.annotate(f'{signal}{round(growth, 1)}%', (dict_list[0]['year_columns'][i], parameter_list[i]+offset), color=color, ha=h_align, va='center', weight='semibold')
 
     # Despesas VGA - seetings
     if parameter == 'vga_lucro_brut_list':
@@ -82,7 +117,7 @@ def image_setter(image, folder_fig, pdf_object):
 
 
 # Input companies for analysis
-company_list = ['TRANSMISSORA ALIANÇA DE ENERGIA ELÉTRICA S.A.']
+company_list = ['INSTITUTO HERMES PARDINI S.A.']
 
 # Collect data from function worked_info
 return_dict_list = pi.worked_info(companies=company_list)
