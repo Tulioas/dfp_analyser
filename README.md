@@ -88,7 +88,7 @@ Os dados de interesse são baseados nas recomendações do livro ["Warren Buffet
 
 ### Tempo de Execução
 
-O tempo de execução do programa gira em torno de 1 a 2 minutos. Esse tempo se concetra principalemente nas etapas de criar os plots e editar o documento. Até o momento, não se investiu em formas de agilizar esse processo
+O tempo de execução do programa gira em torno de 20-30 segundos. Esse tempo se concetra principalemente nas etapas de criar os plots e editar o documento. Até o momento, não se investiu em formas de agilizar esse processo
 
 ### Possíveis problemas
 
